@@ -1,0 +1,70 @@
+.citation{
+    color: #346255;
+    font-size: 0.8em;
+}
+.padit{
+    margin-bottom: 1em;
+}
+.spbkgHIDE{
+background-color:rgba(  0,0,0,0.5);
+}
+span.noisy{
+color: #346255;
+font-size: 2em;
+font-weight: bold;
+}
+span.notsonoisy{
+font-size: 1.2em;
+font-weight: normal;
+}
+div.zpanel {
+position: relative;
+top: 50%;
+transform: translateY(-50%);
+}
+
+form.sameline {
+display: inline-block;
+float:right;
+position: relative;
+top: 50%;
+transform: translateY(-50%);
+}
+div.sameline {
+display: inline-block;
+position: relative;
+top: 50%;
+transform: translateY(-50%);
+}
+img.colouredflowers{
+width:100%; /* you can use % */
+height: auto;
+border: 2px solid #346255;
+}
+img.sampleflowers{
+display: inline-block;
+border: 2px solid #346255;
+margin-top; 1em;
+margin-bottom; 10em;
+}
+.greenroses {
+background: url('../images/pale_green_roses.png') no-repeat;
+background-size:100%
+padding: 1em;
+margin: 1em;
+}
+table.greenroses {
+background: url('../images/pale_green_roses.png') no-repeat;
+background-size:100%
+}
+.innercontainer{
+    min-height: 300px;
+    position: relative;
+}
+.innercontainer img{
+    width:300px;/* you can use % */
+    height: auto;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}

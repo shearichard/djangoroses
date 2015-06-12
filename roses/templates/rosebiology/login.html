@@ -1,0 +1,57 @@
+{% extends 'rosebiology/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+    Roses Login
+{% endblock %}
+
+{% load url from future %}
+
+{% block content %}
+        <style>
+        table.authdemo {
+          border-collapse: collapse;
+        }
+
+        table.authdemo td, th {
+          border: 1px solid transparent;
+          padding: 0.5rem;
+          text-align: left;
+        }
+        </style>
+
+        <h2>Login to Roses</h2>
+        <br />
+
+        <form id="login_form" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <table class="authdemo">
+                <tr>
+                    <td>
+                        Username:
+                    </td>
+                    <td>
+                        <input type="text" name="username" value="" size="50" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Password:
+                    </td>
+                    <td>
+                        <input type="password" name="password" value="" size="50" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;   
+                    </td>
+                    <td>
+                        <input type="submit" value="submit" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'rosebiology/base.html' %}
+{% load url from future %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Species Detail
+{% endblock %}
+
+{% block content %}
+    {% load staticfiles %}
+    <img class="colouredflowers padit" src="{% static "images/flowersbanner.png" %}" alt="Django coloured roses"/>
+    <div class="innercontainer greenroses">
+        <h1>{{ object.binomial_nomenclature }}</h1>
+        <p>Name: {{ object.name }}</p>
+        <p>Height and Spread: {{ object.height_and_spread }}</p>
+        <p>Record Created : {{ object.created }}</p>
+        <p>Record Updated : {{ object.modified }}</p>
+        <p>Common Names: {{ common_names_list|join:" , " }}</p>
+        {% load staticfiles %}
+        <div>
+        <img class="sampleflowers" src="{% static "images/django-rose-0.png" %}" alt="A rose !"/>
+        &nbsp;
+        </div>
+
+        {% bootstrap_messages %}
+        
+        <a href="{% url 'specieslist' %}" class="btn btn-primary">Done</a>
+
+    </div>
+
+{% endblock %}
+
+
+
