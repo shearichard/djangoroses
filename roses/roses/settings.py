@@ -78,10 +78,9 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATE_DIRS = (
-            os.path.normpath(os.path.join(BASE_DIR, 'templates')),
-
-)
+#TEMPLATE_DIRS = (
+#            os.path.normpath(os.path.join(BASE_DIR, 'templates')),
+#)
 
 WSGI_APPLICATION = 'roses.wsgi.application'
 

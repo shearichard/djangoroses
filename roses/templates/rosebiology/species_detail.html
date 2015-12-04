@@ -1,5 +1,5 @@
 {% extends 'rosebiology/base.html' %}
-{% load url from future %}
+{% comment "This causes problem in 1.9 and, I believe, wasn't needed after 1.5 so remove it once it's stable" %}{% load url from future %} {% endcomment %}
 {% load bootstrap3 %}
 
 {% block title %}

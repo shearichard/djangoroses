@@ -79,7 +79,7 @@ class SpeciesCreate(LoginRequiredMixin, CreateView):
         else:
             return super(SpeciesCreate, self).post(request, *args, **kwargs)
 
-    @permission_required('rosebiology.add_species')
+    @method_decorator(permission_required('rosebiology.add_species'))
     def dispatch(self, *args, **kwargs):
         return super(SpeciesCreate, self).dispatch(*args, **kwargs)
 
