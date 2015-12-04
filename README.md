@@ -41,3 +41,5 @@ https://docs.djangoproject.com/en/1.8/topics/signals/ has some good comments as 
 
 ----
 [1]:https://docs.djangoproject.com/en/1.8/topics/http/middleware/
+----
+As of December 2015 this project is now running on Django 1.9
