@@ -1,6 +1,7 @@
 Django==1.9
 django-bootstrap3==6.2.2
 django-extensions==1.5.9
+djangorestframework==3.3.1
 fancycompleter==0.4
 flake8==2.5.0
 mccabe==0.3.1
