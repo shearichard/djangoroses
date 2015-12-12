@@ -1,8 +1,10 @@
 import logging
 
 import pytz
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 
-from django.http import HttpResponseRedirect, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseServerError
 from django.shortcuts import render, render_to_response
 from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
@@ -15,10 +17,70 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Species, CommonName  
+from .serializers import SpeciesSerializer
 
 logger = logging.getLogger(__name__)
+
+
+#DRF Experiment#####################################################
+class JSONResponse(HttpResponse):
+    """
+    An HttpResponse that renders its content into JSON.
+    """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+
+
+@csrf_exempt
+def species_list(request):
+    """
+    List all code species, or create a new species.
+    """
+    if request.method == 'GET':
+        species = Species.objects.all()
+        serializer = SpeciesSerializer(species, many=True)
+        return JSONResponse(serializer.data)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = SpeciesSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data, status=201)
+        return JSONResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def species_detail(request, pk):
+    """
+    Retrieve, update or delete a code species.
+    """
+    try:
+        species = Species.objects.get(pk=pk)
+    except Species.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = SpeciesSerializer(species)
+        return JSONResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = SpeciesSerializer(species, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data)
+        return JSONResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        species.delete()
+
+####################################################################
 
 class LoginRequiredMixin(object):
     @method_decorator(login_required)
