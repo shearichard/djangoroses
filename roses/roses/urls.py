@@ -35,4 +35,5 @@ urlpatterns += i18n_patterns(
     url(r'^species/login/$', views.user_login, name='login'),
     url(r'^species/logout/$', views.user_logout, name='logout'),
     url(r'^species/set_timezone/$', views.set_timezone, name='set_timezone'),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
 )
