@@ -1,4 +1,19 @@
-# Middleware[1] #
+# Djangocon Au 2015 #
+In July 2015 I delivered a talk at Djangocon AU, "Stop and smell the Djangos". The talk is available on YouTube : https://www.youtube.com/watch?v=tl0wkY78jk4 .
+
+During the talk I made use of a Django project to illustrate the points I was making. That project is contained in this repository.
+
+## Now with added 1.9 ##
+When Django 1.9 was released in December 2015 I decided to use this project as a testbed for converting to 1.9 so the repository is now based on that release.
+
+## Also with Django Rest Framework ##
+I've recently been learning how to use Ember.js and so I decided to use this project as a backend for some of my client-side Ember.js experiments. As a result I've grafted on a branch which exposes a RESTful API using the Django Rest Framework primarily to allow me to build a Ember.js application which corresponds to the 'normal' Django interface offered by the pre-existing code. At some point this work will get merged with Master but it's not there yet.
+
+
+
+--------------------------------
+# Talk Outline #
+# Middleware #
 Enables us, developers, to plug into the request / response cycle and make global alterations to the input or output.
 
 Django comes with a set of prebuild middleware and developers may use some or all of those, they can also write their own for whatever needs they might have.
