@@ -9,6 +9,7 @@ When Django 1.9 was released in December 2015 I decided to use this project as a
 ## Also with Django Rest Framework ##
 I've recently been learning how to use Ember.js and so I decided to use this project as a backend for some of my client-side Ember.js experiments. As a result I've introduced changes which expose a RESTful API using the Django Rest Framework primarily to allow me to build a Ember.js application which corresponds to the 'normal' Django interface offered by the pre-existing code. 
 
+See the wiki for some information about using the API.
 
 
 --------------------------------
