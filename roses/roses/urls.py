@@ -7,6 +7,8 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.decorators import login_required, permission_required
 from django.conf.urls.i18n import i18n_patterns
 
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from rosebiology.views import HomePageView, SpeciesList, SpeciesDetailView, SpeciesCreate, SpeciesDelete, SpeciesUpdate    
 from rosebiology import views
 
@@ -20,6 +22,8 @@ urlpatterns = [
     url(r'^api/species/$', views.species_list),
     url(r'^api/species/(?P<pk>[0-9]+)/$', views.species_detail),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
  
 #Subsequent set of urls we *do*
 #want translated

@@ -1,8 +1,10 @@
 import logging
 
 import pytz
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseServerError
 from django.shortcuts import render, render_to_response
@@ -25,60 +27,47 @@ from .serializers import SpeciesSerializer
 logger = logging.getLogger(__name__)
 
 
-#DRF Experiment#####################################################
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
-
-
-
-@csrf_exempt
-def species_list(request):
+@api_view(['GET', 'POST'])
+def species_list(request, format=None):
     """
     List all code species, or create a new species.
     """
     if request.method == 'GET':
         species = Species.objects.all()
         serializer = SpeciesSerializer(species, many=True)
-        return JSONResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = SpeciesSerializer(data=data)
+        serializer = SpeciesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        return JSONResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@csrf_exempt
-def species_detail(request, pk):
+@api_view(['GET', 'PUT', 'DELETE'])
+def species_detail(request, pk, format=None):
     """
     Retrieve, update or delete a code species.
     """
     try:
         species = Species.objects.get(pk=pk)
     except Species.DoesNotExist:
-        return HttpResponse(status=404)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = SpeciesSerializer(species)
-        return JSONResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = SpeciesSerializer(species, data=data)
+        serializer = SpeciesSerializer(species, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JSONResponse(serializer.data)
-        return JSONResponse(serializer.errors, status=400)
+            return Response(serializer.data)
+        return JSONResponse(serializer.errors, status=status.HTTP_400_NOT_FOUND)
 
     elif request.method == 'DELETE':
         species.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 ####################################################################
 
