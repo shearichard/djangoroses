@@ -2,11 +2,14 @@ import logging
 
 import pytz
 
+from rest_framework.views import APIView 
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import AllowAny
 
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseServerError
+from django.http import Http404
 from django.shortcuts import render, render_to_response
 from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
@@ -27,45 +30,49 @@ from .serializers import SpeciesSerializer
 logger = logging.getLogger(__name__)
 
 
-@api_view(['GET', 'POST'])
-def species_list(request, format=None):
+class SpeciesListAsAPI(APIView):
     """
     List all code species, or create a new species.
     """
-    if request.method == 'GET':
+    permission_classes = (AllowAny,)
+    #authentication_classes = (SessionAuthentication, BasicAuthentication)
+    def get(self, request, format=None):
         species = Species.objects.all()
         serializer = SpeciesSerializer(species, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
+    def post(self, request, format=None):
         serializer = SpeciesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def species_detail(request, pk, format=None):
+class SpeciesDetailAsAPI(APIView):
     """
     Retrieve, update or delete a code species.
     """
-    try:
-        species = Species.objects.get(pk=pk)
-    except Species.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    def get_object(self, pk):
+        try:
+            return Species.objects.get(pk=pk)
+        except Species.DoesNotExist:
+            raise Http404
 
-    if request.method == 'GET':
+    def get(self, request, pk, format=None):
+        species = self.get_object(pk)
         serializer = SpeciesSerializer(species)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
+    def put(self, request, pk, format=None):
+        species = self.get_object(pk)
         serializer = SpeciesSerializer(species, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return JSONResponse(serializer.errors, status=status.HTTP_400_NOT_FOUND)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
-    elif request.method == 'DELETE':
+    def delete(self, request, pk, format=None):
+        species = self.get_object(pk)
         species.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

@@ -19,8 +19,8 @@ from rosebiology import views
 #if we had one.
 urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
-    url(r'^api/species/$', views.species_list),
-    url(r'^api/species/(?P<pk>[0-9]+)/$', views.species_detail),
+    url(r'^api/species/$', views.SpeciesListAsAPI.as_view()),
+    url(r'^api/species/(?P<pk>[0-9]+)/$', views.SpeciesDetailAsAPI.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

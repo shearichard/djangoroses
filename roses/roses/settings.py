@@ -152,7 +152,10 @@ LOGGING = {
         },
     }
 }
-
+REST_FRAMEWORK = { 
+    'DEFAULT_PERMISSION_CLASSES': [], 
+    'DEFAULT_AUTHENTICATION_CLASSES': [], 
+}
 '''
 if DEBUG:
     # make all loggers use the console.
